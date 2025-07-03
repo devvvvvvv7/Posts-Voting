@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sanmati Higher Secondary School Election Voting</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e0e7ff, #c3dafe);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      margin: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1e40af;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    h2 img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 1rem;
+      color: #1f2937;
+      background: #f9fafb;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #status {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #15803d;
+    }
+
+    #status.error {
+      color: #dc2626;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      button {
+        font-size: 1rem;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>
+      <img src="https://img.icons8.com/color/48/000000/ballot-box.png" alt="Ballot Box">
+      Sanmati Higher Secondary School Election Voting
+    </h2>
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="Enter Your Full Name" required>
+    </div>
+    <div class="form-group">
+      <label for="class">Class</label>
+      <select id="class">
+        <option value="">Select Class</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="section">Section</label>
+      <select id="section">
+        <option value="">Select Section</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+        <option>D</option>
+        <option>E</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="headBoy">Head Boy</label>
+      <select id="headBoy">
+        <option value="">Vote for Head Boy</option>
+        <option>Kabir</option>
+        <option>Arjun</option>
+        <option>Ravi</option>
+        <option>Yash</option>
+        <option>Manav</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="headGirl">Head Girl</label>
+      <select id="headGirl">
+        <option value="">Vote for Head Girl</option>
+        <option>Priya</option>
+        <option>Neha</option>
+        <option>Aditi</option>
+        <option>Riya</option>
+        <option>Saanvi</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="culturalCaptain">Cultural Captain</label>
+      <select id="culturalCaptain">
+        <option value="">Vote for Cultural Captain</option>
+        <option>Sakshi</option>
+        <option>Ridhi</option>
+        <option>Shreya</option>
+        <option>Aarohi</option>
+        <option>Diya</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="sportsCaptain">Sports Captain</label>
+      <select id="sportsCaptain">
+        <option value="">Vote for Sports Captain</option>
+        <option>Raghav</option>
+        <option>Kunal</option>
+        <option>Aditya</option>
+        <option>Varun</option>
+        <option>Parth</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="disciplineCaptain">Discipline Captain</label>
+      <select id="disciplineCaptain">
+        <option value="">Vote for Discipline Captain</option>
+        <option>Simran</option>
+        <option>Isha</option>
+        <option>Megha</option>
+        <option>Khushi</option>
+        <option>Jiya</option>
+      </select>
+    </div>
+    <button onclick="submitVote()">Submit Vote</button>
+    <p id="status"></p>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+  apiKey: "AIzaSyDNvUtzdgSavUAaJFjEwXe0Ylg4LWuq2HQ",
+  authDomain: "finalschoolvoting.firebaseapp.com",
+  databaseURL: "https://finalschoolvoting-default-rtdb.firebaseio.com",
+  projectId: "finalschoolvoting",
+  storageBucket: "finalschoolvoting.firebasestorage.app",
+  messagingSenderId: "1043521744114",
+  appId: "1:1043521744114:web:b37d4e5b7d1a0d537bf46b",
+  measurementId: "G-MD73PEW3MR"
+};
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function submitVote() {
+      const name = document.getElementById("name").value.trim();
+      const cls = document.getElementById("class").value;
+      const sec = document.getElementById("section").value;
+      const hb = document.getElementById("headBoy").value;
+      const hg = document.getElementById("headGirl").value;
+      const cc = document.getElementById("culturalCaptain").value;
+      const sc = document.getElementById("sportsCaptain").value;
+      const dc = document.getElementById("disciplineCaptain").value;
+      const status = document.getElementById("status");
+
+      if (!name || !cls || !sec || !hb || !hg || !cc || !sc || !dc) {
+        status.innerText = "Please fill out all fields!";
+        status.classList.add("error");
+        return;
+      }
+
+      const uid = name + "_" + cls + sec;
+      const voteRef = db.ref("votes/" + uid);
+
+      voteRef.once("value", snapshot => {
+        if (snapshot.exists()) {
+          status.innerText = "You have already voted.";
+          status.classList.add("error");
+        } else {
+          voteRef.set({
+            name: name,
+            class: cls,
+            section: sec,
+            votes: { headBoy: hb, headGirl: hg, culturalCaptain: cc, sportsCaptain: sc, disciplineCaptain: dc }
+          });
+          status.innerText = "✅ Vote submitted successfully!";
+          status.classList.remove("error");
+        }
+      });
+    }
+  </script>
+</body>
+</html>
